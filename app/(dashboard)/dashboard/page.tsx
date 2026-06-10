@@ -18,6 +18,8 @@ import { formatCurrency, formatDate, cn } from "@/lib/utils";
 import type { DashboardData } from "@/types";
 import Link from "next/link";
 
+import { useAuthStore } from "@/stores/auth-store";
+
 function StatCardSkeleton() {
   return (
     <Card>
@@ -36,6 +38,11 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const { user, token } = useAuthStore();
+
+  console.log("User details:", user);
+  console.log("Mock JWT token:", token);
 
   useEffect(() => {
     const fetchDashboard = async () => {

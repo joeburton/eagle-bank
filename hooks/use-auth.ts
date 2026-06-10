@@ -3,19 +3,25 @@
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/stores/auth-store";
 import { apiClient } from "@/lib/api-client";
-import type { LoginCredentials, RegisterCredentials } from "@/types";
+import type { LoginCredentials, RegisterCredentials, User } from "@/types";
 
 export function useAuth() {
   const router = useRouter();
-  const { setUser, logout: storeLogout, setLoading, setError, clearError } = useAuthStore();
+  const {
+    setUser,
+    logout: storeLogout,
+    setLoading,
+    setError,
+    clearError,
+  } = useAuthStore();
 
   const login = async (credentials: LoginCredentials) => {
     setLoading(true);
     clearError();
     try {
-      const res = await apiClient.post<{ data: { user: import("@/types").User; token: string } }>(
+      const res = await apiClient.post<{ data: { user: User; token: string } }>(
         "/auth/login",
-        credentials
+        credentials,
       );
       setUser(res.data.user, res.data.token);
       router.push("/dashboard");
@@ -31,9 +37,9 @@ export function useAuth() {
     setLoading(true);
     clearError();
     try {
-      const res = await apiClient.post<{ data: { user: import("@/types").User; token: string } }>(
+      const res = await apiClient.post<{ data: { user: User; token: string } }>(
         "/auth/register",
-        credentials
+        credentials,
       );
       setUser(res.data.user, res.data.token);
       router.push("/dashboard");

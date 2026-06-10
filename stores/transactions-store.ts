@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import type { Transaction, TransactionFilters } from "@/types";
 
-interface TransactionsState {
+type TransactionsStore = {
   transactions: Transaction[];
   total: number;
   page: number;
@@ -9,16 +9,15 @@ interface TransactionsState {
   filters: TransactionFilters;
   isLoading: boolean;
   error: string | null;
-}
-
-interface TransactionsActions {
-  setTransactions: (data: { transactions: Transaction[]; total: number; totalPages: number }) => void;
+  setTransactions: (
+    data: Pick<TransactionsStore, "transactions" | "total" | "totalPages">,
+  ) => void;
   setFilters: (filters: Partial<TransactionFilters>) => void;
   setPage: (page: number) => void;
   setLoading: (loading: boolean) => void;
   setError: (error: string | null) => void;
   reset: () => void;
-}
+};
 
 const DEFAULT_FILTERS: TransactionFilters = {
   type: "all",
@@ -28,7 +27,7 @@ const DEFAULT_FILTERS: TransactionFilters = {
   limit: 10,
 };
 
-export const useTransactionsStore = create<TransactionsState & TransactionsActions>()((set) => ({
+export const useTransactionsStore = create<TransactionsStore>()((set) => ({
   transactions: [],
   total: 0,
   page: 1,
@@ -55,5 +54,11 @@ export const useTransactionsStore = create<TransactionsState & TransactionsActio
   setLoading: (isLoading) => set({ isLoading }),
   setError: (error) => set({ error }),
   reset: () =>
-    set({ transactions: [], total: 0, page: 1, totalPages: 1, filters: DEFAULT_FILTERS }),
+    set({
+      transactions: [],
+      total: 0,
+      page: 1,
+      totalPages: 1,
+      filters: DEFAULT_FILTERS,
+    }),
 }));

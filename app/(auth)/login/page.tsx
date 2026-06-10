@@ -11,7 +11,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/use-auth";
 import { useAuthStore } from "@/stores/auth-store";
-import type { Metadata } from "next";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -54,7 +53,11 @@ export default function LoginPage() {
         <strong>Demo:</strong> joe.burton@eaglebank.com / any password
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate aria-label="Login form">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        aria-label="Login form"
+      >
         <div className="space-y-4">
           <div className="space-y-1.5">
             <Label htmlFor="email">Email address</Label>
@@ -69,7 +72,11 @@ export default function LoginPage() {
               {...register("email")}
             />
             {errors.email && (
-              <p id="email-error" className="text-xs text-[hsl(var(--destructive))]" role="alert">
+              <p
+                id="email-error"
+                className="text-xs text-[hsl(var(--destructive))]"
+                role="alert"
+              >
                 {errors.email.message}
               </p>
             )}
@@ -96,7 +103,11 @@ export default function LoginPage() {
               {...register("password")}
             />
             {errors.password && (
-              <p id="password-error" className="text-xs text-[hsl(var(--destructive))]" role="alert">
+              <p
+                id="password-error"
+                className="text-xs text-[hsl(var(--destructive))]"
+                role="alert"
+              >
                 {errors.password.message}
               </p>
             )}
@@ -105,7 +116,10 @@ export default function LoginPage() {
           {error && (
             <div
               className="p-3 rounded-md text-sm text-[hsl(var(--destructive))] border"
-              style={{ borderColor: "hsl(var(--destructive) / 0.3)", background: "hsl(var(--destructive) / 0.05)" }}
+              style={{
+                borderColor: "hsl(var(--destructive) / 0.3)",
+                background: "hsl(var(--destructive) / 0.05)",
+              }}
               role="alert"
               aria-live="polite"
             >
