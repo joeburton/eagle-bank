@@ -2,7 +2,7 @@
 
 A responsive, accessible banking frontend for Eagle Bank. Built as a production-grade take-home assessment.
 
-**Live demo:** https://eagle-bank.vercel.app  
+**Live demo:** https://eagle-bank-one.vercel.app  
 **Demo credentials:** `joe.burton@eaglebank.com` / any password
 
 ---
@@ -21,24 +21,30 @@ pnpm build      # production build
 ## Architecture decisions
 
 ### Framework: Next.js 15 (App Router)
+
 App Router was chosen over Pages Router for its first-class support for React Server Components, streaming, nested layouts, and colocated route handlers — all of which directly contribute to performance and code organisation. Route groups (`(auth)` and `(dashboard)`) keep auth and protected pages cleanly separated without polluting the URL structure.
 
 ### UI library: shadcn/ui + Tailwind CSS v4
+
 shadcn/ui copies component source into the repo rather than hiding it behind a package. This means we own the components fully — they can be customised, audited, and extended without fighting a library's API surface. It also demonstrates design-system thinking at the token level (CSS custom properties in `globals.css`).
 
 Tailwind CSS v4 brings native CSS-first configuration, which pairs cleanly with the CSS variable token strategy.
 
 ### State management: Zustand
+
 Two focused stores are used:
+
 - `authStore` — user session, token, loading/error state, persisted via `zustand/middleware` to `localStorage`
 - `transactionsStore` — transaction list, pagination, and filter state
 
 Zustand was chosen over Context API for its minimal boilerplate, lack of provider wrapping, and straightforward devtools integration. RTK Query would be appropriate if we were scaling to many more data-fetching scenarios.
 
 ### Mock API: Next.js Route Handlers
+
 All mock endpoints live in `app/api/` as proper Next.js Route Handlers. This mirrors a real backend integration: the same `fetch`-based `apiClient` would work against a real API with no page-level changes. Simulated network latency is added via `setTimeout` to enable realistic loading states.
 
 ### Auth: cookie + localStorage hybrid
+
 The Route Handler sets an `httpOnly` cookie (`eagle-bank-token`) for middleware-based route protection, while Zustand persists the token in `localStorage` for client-side auth checks. This is consistent with common production patterns.
 
 ---
@@ -114,15 +120,16 @@ eagle-bank/
 
 Tests live in `__tests__/` and use **Vitest** + **Testing Library**.
 
-| Area | What's tested |
-|------|--------------|
-| `lib/utils.ts` | Currency formatting, date formatting, masking, sign helpers |
-| `stores/auth-store` | Login state, logout, token persistence, error/loading state |
-| `stores/transactions-store` | Pagination, filters, reset |
-| `components/ui/Button` | Rendering, click handling, disabled state, asChild |
-| `api/auth` | Fetch contract — correct endpoint, method, body, error handling |
+| Area                        | What's tested                                                   |
+| --------------------------- | --------------------------------------------------------------- |
+| `lib/utils.ts`              | Currency formatting, date formatting, masking, sign helpers     |
+| `stores/auth-store`         | Login state, logout, token persistence, error/loading state     |
+| `stores/transactions-store` | Pagination, filters, reset                                      |
+| `components/ui/Button`      | Rendering, click handling, disabled state, asChild              |
+| `api/auth`                  | Fetch contract — correct endpoint, method, body, error handling |
 
 Run tests:
+
 ```bash
 pnpm test              # watch mode
 pnpm test:coverage     # generate coverage report
