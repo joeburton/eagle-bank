@@ -25,9 +25,8 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             &ldquo;Banking made simple, secure, and transparent &mdash; built around you.&rdquo;
           </blockquote>
           <div className="flex gap-6 text-sm text-white/70">
-            <span>🔒 256-bit encryption</span>
-            <span>✓ FCA regulated</span>
-            <span>🇬🇧 UK protected</span>
+            <span>🔒 Secure banking</span>
+            <span>✦ Demo application</span>
           </div>
         </div>
       </div>
