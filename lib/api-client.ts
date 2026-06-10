@@ -1,12 +1,10 @@
 import type { ApiError } from "@/types";
+import { useAuthStore } from "@/stores/auth-store";
 
 const BASE_URL = "/api";
 
 function getAuthHeaders(): HeadersInit {
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("eagle-bank-token")
-      : null;
+  const token = useAuthStore.getState().token;
 
   return {
     "Content-Type": "application/json",

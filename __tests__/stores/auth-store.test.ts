@@ -1,18 +1,6 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { useAuthStore } from "@/stores/auth-store";
 
-// Mock localStorage
-const localStorageMock = (() => {
-  let store: Record<string, string> = {};
-  return {
-    getItem: (key: string) => store[key] ?? null,
-    setItem: (key: string, value: string) => { store[key] = value; },
-    removeItem: (key: string) => { delete store[key]; },
-    clear: () => { store = {}; },
-  };
-})();
-Object.defineProperty(window, "localStorage", { value: localStorageMock });
-
 const MOCK_USER = {
   id: "user-001",
   email: "test@example.com",
@@ -31,7 +19,6 @@ describe("useAuthStore", () => {
       isLoading: false,
       error: null,
     });
-    localStorageMock.clear();
   });
 
   it("initial state is unauthenticated", () => {
@@ -49,11 +36,6 @@ describe("useAuthStore", () => {
     expect(state.token).toBe("test-token");
   });
 
-  it("setUser stores token in localStorage", () => {
-    useAuthStore.getState().setUser(MOCK_USER, "test-token");
-    expect(localStorageMock.getItem("eagle-bank-token")).toBe("test-token");
-  });
-
   it("logout clears user state", () => {
     useAuthStore.getState().setUser(MOCK_USER, "test-token");
     useAuthStore.getState().logout();
@@ -61,12 +43,6 @@ describe("useAuthStore", () => {
     expect(state.isAuthenticated).toBe(false);
     expect(state.user).toBeNull();
     expect(state.token).toBeNull();
-  });
-
-  it("logout removes token from localStorage", () => {
-    useAuthStore.getState().setUser(MOCK_USER, "test-token");
-    useAuthStore.getState().logout();
-    expect(localStorageMock.getItem("eagle-bank-token")).toBeNull();
   });
 
   it("setError sets the error message", () => {

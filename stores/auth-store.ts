@@ -28,16 +28,10 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       error: null,
 
       setUser: (user, token) => {
-        if (typeof window !== "undefined") {
-          localStorage.setItem("eagle-bank-token", token);
-        }
         set({ user, token, isAuthenticated: true, error: null });
       },
 
       logout: () => {
-        if (typeof window !== "undefined") {
-          localStorage.removeItem("eagle-bank-token");
-        }
         set({ user: null, token: null, isAuthenticated: false, error: null });
       },
 
