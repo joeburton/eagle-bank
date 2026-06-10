@@ -5,6 +5,7 @@ const PUBLIC_ROUTES = ["/login", "/register"];
 const PROTECTED_PREFIX = "/dashboard";
 
 export function proxy(request: NextRequest) {
+  console.log("Proxy middleware triggered for:", request.url);
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("eagle-bank-token")?.value;
 
