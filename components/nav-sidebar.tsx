@@ -8,7 +8,6 @@ import {
   ArrowLeftRight,
   User,
   LogOut,
-  Building2,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
@@ -18,7 +17,11 @@ import { Button } from "@/components/ui/button";
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/dashboard/accounts", label: "Accounts", icon: CreditCard },
-  { href: "/dashboard/transactions", label: "Transactions", icon: ArrowLeftRight },
+  {
+    href: "/dashboard/transactions",
+    label: "Transactions",
+    icon: ArrowLeftRight,
+  },
   { href: "/dashboard/profile", label: "Profile", icon: User },
 ];
 
@@ -41,7 +44,9 @@ export function NavSidebar() {
         >
           E
         </div>
-        <span className="font-semibold text-base tracking-tight">Eagle Bank</span>
+        <span className="font-semibold text-base tracking-tight">
+          Eagle Bank
+        </span>
       </div>
 
       {/* Nav links */}
@@ -57,7 +62,7 @@ export function NavSidebar() {
                   "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]",
                   isActive
                     ? "bg-[hsl(var(--primary))] text-white"
-                    : "text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))]"
+                    : "text-[hsl(var(--muted-foreground))] hover:bg-[hsl(var(--accent))] hover:text-[hsl(var(--accent-foreground))]",
                 )}
               >
                 <Icon className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -79,8 +84,12 @@ export function NavSidebar() {
             {user?.fullName?.charAt(0) ?? "U"}
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium truncate">{user?.fullName ?? "User"}</p>
-            <p className="text-xs text-[hsl(var(--muted-foreground))] truncate">{user?.email}</p>
+            <p className="text-sm font-medium truncate">
+              {user?.fullName ?? "User"}
+            </p>
+            <p className="text-xs text-[hsl(var(--muted-foreground))] truncate">
+              {user?.email}
+            </p>
           </div>
         </div>
         <Button
