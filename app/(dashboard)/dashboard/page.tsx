@@ -36,7 +36,6 @@ export default function DashboardPage() {
   const { user, token } = useAuthStore();
 
   console.log("User details:", user);
-  console.log("Mock JWT token:", token);
 
   useEffect(() => {
     const fetchDashboard = async () => {
