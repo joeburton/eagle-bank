@@ -2,7 +2,7 @@
 
 A responsive, accessible banking frontend for Eagle Bank. Built as a production-grade take-home assessment.
 
-**Live demo:** https://eagle-bank-one.vercel.app  
+**Live demo:** <a href="https://eagle-bank-one.vercel.app" target="_blank" rel="noreferrer">https://eagle-bank-one.vercel.app</a>  
 **Demo credentials:** `joe.burton@eaglebank.com` / any password
 
 ---
@@ -75,7 +75,7 @@ const badgeVariants = cva("...", {
   variants: {
     variant: {
       default: "...",
-      success: "bg-green-100 text-green-700",   // custom variant
+      success: "bg-green-100 text-green-700", // custom variant
       warning: "bg-yellow-100 text-yellow-700", // custom variant
     },
   },
