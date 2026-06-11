@@ -2,33 +2,25 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const PUBLIC_ROUTES = ["/login", "/register"];
-const PUBLIC_API_ROUTES = [
-  "/api/auth/login",
-  "/api/auth/register",
-  "/api/auth/logout",
-];
 const PROTECTED_PREFIX = "/dashboard";
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("eagle-bank-token")?.value;
 
+  const isApiRoute = pathname.startsWith("/api");
   const isPublicRoute = PUBLIC_ROUTES.some((route) =>
     pathname.startsWith(route),
   );
-  const isPublicApiRoute = PUBLIC_API_ROUTES.some((route) =>
-    pathname.startsWith(route),
-  );
-
   const isProtectedRoute = pathname.startsWith(PROTECTED_PREFIX);
 
-  const isApiRoute = pathname.startsWith("/api");
-
-  if (isApiRoute && !isPublicApiRoute && !token) {
-    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  // Protect non-auth API routes
+  if (isApiRoute) {
+    if (!token && !pathname.startsWith("/api/auth")) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+    return NextResponse.next();
   }
-
-  if (isApiRoute) return NextResponse.next();
 
   // Root redirect
   if (pathname === "/") {
@@ -44,9 +36,7 @@ export function proxy(request: NextRequest) {
 
   // Redirect unauthenticated users to login
   if (isProtectedRoute && !token) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("callbackUrl", pathname);
-    return NextResponse.redirect(loginUrl);
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 
   return NextResponse.next();
