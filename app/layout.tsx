@@ -7,6 +7,7 @@ export const metadata: Metadata = {
     template: "%s | Eagle Bank",
   },
   description: "Secure and modern banking with Eagle Bank",
+  metadataBase: new URL("https://eagle-bank-one.vercel.app"),
 };
 
 export default function RootLayout({
