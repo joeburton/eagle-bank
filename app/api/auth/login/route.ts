@@ -11,7 +11,7 @@ export async function POST(request: Request) {
     if (!email || !password) {
       return NextResponse.json(
         { message: "Email and password are required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -21,16 +21,19 @@ export async function POST(request: Request) {
     if (!user) {
       return NextResponse.json(
         { message: "Invalid email or password" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
+    // In a real app, you'd verify the password and generate a JWT or similar token here.
     const response = NextResponse.json({
       data: { user, token: MOCK_TOKEN },
       message: "Login successful",
     });
 
-    response.cookies.set("eagle-bank-token", MOCK_TOKEN, {
+    // Presence-flag cookie — used by proxy.ts for server-side route protection only.
+    // The actual token lives in Zustand/localStorage and is sent as a Bearer token on API requests.
+    response.cookies.set("is-authenticated", "1", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -42,7 +45,7 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       { message: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
