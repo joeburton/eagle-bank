@@ -20,7 +20,7 @@ pnpm build      # production build
 
 ## Architecture decisions
 
-### Framework: Next.js 15 (App Router)
+### Framework: Next.js 16 (App Router)
 
 App Router was chosen over Pages Router for its first-class support for React Server Components, streaming, nested layouts, and colocated route handlers — all of which directly contribute to performance and code organisation. Route groups (`(auth)` and `(dashboard)`) keep auth and protected pages cleanly separated without polluting the URL structure.
 
@@ -29,6 +29,58 @@ App Router was chosen over Pages Router for its first-class support for React Se
 shadcn/ui copies component source into the repo rather than hiding it behind a package. This means we own the components fully — they can be customised, audited, and extended without fighting a library's API surface. It also demonstrates design-system thinking at the token level (CSS custom properties in `globals.css`).
 
 Tailwind CSS v4 brings native CSS-first configuration, which pairs cleanly with the CSS variable token strategy.
+
+**Adding new shadcn/ui components**
+
+Use the CLI to copy a component's source directly into `components/ui/`:
+
+```bash
+# Add a single component
+npx shadcn@latest add dialog
+
+# Add multiple at once
+npx shadcn@latest add dialog sheet tooltip
+```
+
+The generated file lands at `components/ui/dialog.tsx` and is yours to modify. Import it like any other component:
+
+```tsx
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+export function ConfirmModal({ children }: { children: React.ReactNode }) {
+  return (
+    <Dialog>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+        </DialogHeader>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+To extend an existing component with a new variant, edit the CVA config directly in the component file:
+
+```tsx
+// components/ui/badge.tsx
+const badgeVariants = cva("...", {
+  variants: {
+    variant: {
+      default: "...",
+      success: "bg-green-100 text-green-700",   // custom variant
+      warning: "bg-yellow-100 text-yellow-700", // custom variant
+    },
+  },
+});
+```
 
 ### State management: Zustand
 
@@ -61,6 +113,7 @@ eagle-bank/
 │   │   └── dashboard/
 │   │       ├── accounts/
 │   │       ├── transactions/
+│   │       │   └── [id]/      # Transaction detail page
 │   │       └── profile/
 │   ├── api/               # Mock Route Handlers
 │   │   ├── auth/
