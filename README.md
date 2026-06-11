@@ -150,6 +150,7 @@ pnpm test:coverage     # generate coverage report
 ## Assessment spec checklist
 
 ### Authentication
+
 - [x] Login page
 - [x] Registration page
 - [x] Store authentication state on the frontend (Zustand)
@@ -163,6 +164,7 @@ pnpm test:coverage     # generate coverage report
 - [x] `GET /api/auth/me`
 
 ### Dashboard
+
 - [x] Welcome message with user name
 - [x] Total account balance
 - [x] Summary card: current balance
@@ -175,6 +177,7 @@ pnpm test:coverage     # generate coverage report
 - [x] `GET /api/dashboard`
 
 ### Accounts management
+
 - [x] Savings account type
 - [x] Credit account type
 - [x] Account number displayed (masked)
@@ -186,6 +189,7 @@ pnpm test:coverage     # generate coverage report
 - [x] `GET /api/accounts/:id`
 
 ### Transactions
+
 - [x] Transaction list
 - [x] Filter by date range
 - [x] Sort by date
@@ -194,9 +198,10 @@ pnpm test:coverage     # generate coverage report
 - [x] Deposit / withdrawal / transfer types
 - [x] `GET /api/transactions`
 - [x] `GET /api/transactions/:id` (route handler implemented)
-- [ ] Transaction detail view/page (route handler exists, no UI page yet)
+- [x] Transaction detail view/page
 
 ### User profile
+
 - [x] View profile information
 - [x] Edit full name
 - [x] Edit email
@@ -208,6 +213,7 @@ pnpm test:coverage     # generate coverage report
 - [x] `PUT /api/profile`
 
 ### Error handling
+
 - [x] API error states on all pages
 - [x] Empty states
 - [x] Skeleton loading indicators
@@ -216,6 +222,7 @@ pnpm test:coverage     # generate coverage report
 - [x] Global error boundary with fallback UI
 
 ### Design system & UI engineering
+
 - [x] Consistent typography and spacing (CSS custom property tokens)
 - [x] Reusable Button, Input, Label, Card, Badge, Select, Skeleton components
 - [x] Shared theme/token strategy (`globals.css` CSS variables)
@@ -227,6 +234,7 @@ pnpm test:coverage     # generate coverage report
 - [ ] Storybook integration (bonus)
 
 ### Performance & optimisation
+
 - [x] Automatic route splitting (Next.js)
 - [x] `optimizePackageImports` for `lucide-react` tree-shaking
 - [x] Skeleton loading (stable layout, good CLS)
@@ -239,6 +247,7 @@ pnpm test:coverage     # generate coverage report
 - [ ] Explicit caching strategy
 
 ### Accessibility
+
 - [x] Semantic HTML (`<nav>`, `<main>`, `<aside>`, `<section>`, `<ul>`)
 - [x] ARIA labels, `aria-current`, `aria-busy`, `aria-invalid`, `aria-describedby`, `aria-live`
 - [x] `:focus-visible` ring on all interactive elements
@@ -250,6 +259,7 @@ pnpm test:coverage     # generate coverage report
 - [ ] Skip-to-main-content link
 
 ### Animations & micro-interactions
+
 - [x] Page fade-in transition (`.page-enter`)
 - [x] Hover and focus states on all interactive elements
 - [x] Skeleton pulse animation
@@ -258,6 +268,7 @@ pnpm test:coverage     # generate coverage report
 - [ ] Additional micro-interactions (e.g. form submission success animation)
 
 ### Engineering & collaboration standards
+
 - [x] Clean code structure and separation of concerns
 - [x] Typed throughout with TypeScript
 - [x] Thoughtful abstraction (shared hooks, stores, utils, api-client)
@@ -265,15 +276,18 @@ pnpm test:coverage     # generate coverage report
 - [ ] Meaningful git commit history (ongoing)
 
 ### Testing
+
 - [x] Auth store tests (login, logout, token persistence, error/loading state)
 - [x] Transactions store tests (filters, pagination, reset)
 - [x] Utility function tests (formatting, masking)
 - [x] Button component tests
 - [x] API fetch contract tests (auth login)
 - [ ] Form validation unit tests (login/register Zod schemas)
+- [x] Transaction detail API tests (valid id, 404, endpoint, response shape)
 - [ ] Dashboard/accounts/transactions component tests
 
 ### README
+
 - [x] Architecture decisions
 - [x] Folder structure rationale
 - [x] State management approach
