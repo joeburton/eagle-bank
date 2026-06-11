@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  TrendingUp,
-  TrendingDown,
-  Wallet,
-  ArrowLeftRight,
-  Loader2,
-} from "lucide-react";
+import { TrendingUp, TrendingDown, Wallet, ArrowLeftRight } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -78,6 +72,7 @@ export default function DashboardPage() {
     );
   }
 
+  // Table of Stats
   const stats = [
     {
       label: "Total Balance",
