@@ -144,3 +144,154 @@ pnpm test:coverage     # generate coverage report
 - Form inputs use `noValidate` with Zod + React Hook Form — validation runs in JS with full error messaging rather than relying on native browser validation that can be bypassed.
 - No sensitive data (account numbers) displayed in full — `maskAccountNumber` utility masks all but the last 4 digits.
 - `Content-Type: application/json` header enforced on all API calls.
+
+---
+
+## Assessment spec checklist
+
+### Authentication
+
+- [x] Login page
+- [x] Registration page
+- [x] Store authentication state on the frontend (Zustand)
+- [x] Protect authenticated routes (`proxy.ts`)
+- [x] Persist session using `httpOnly` cookie + `localStorage`
+- [x] Display validation and error states
+- [x] Loading states during login/register
+- [x] `POST /api/auth/register`
+- [x] `POST /api/auth/login`
+- [x] `POST /api/auth/logout`
+- [x] `GET /api/auth/me`
+
+### Dashboard
+
+- [x] Welcome message with user name
+- [x] Total account balance
+- [x] Summary card: current balance
+- [x] Summary card: monthly deposits
+- [x] Summary card: monthly withdrawals
+- [x] Recent transactions list
+- [x] Quick actions section
+- [x] Empty states
+- [x] Responsive layout
+- [x] `GET /api/dashboard`
+
+### Accounts management
+
+- [x] Savings account type
+- [x] Credit account type
+- [x] Account number displayed (masked)
+- [x] Available balance
+- [x] Account type label
+- [x] Account status badge
+- [x] Responsive card layout
+- [x] `GET /api/accounts`
+- [x] `GET /api/accounts/:id`
+
+### Transactions
+
+- [x] Transaction list
+- [x] Filter by date range
+- [x] Sort by date
+- [x] Sort by amount
+- [x] Pagination
+- [x] Deposit / withdrawal / transfer types
+- [x] `GET /api/transactions`
+- [x] `GET /api/transactions/:id` (route handler implemented)
+- [x] Transaction detail view/page
+
+### User profile
+
+- [x] View profile information
+- [x] Edit full name
+- [x] Edit email
+- [x] Edit phone number
+- [x] Edit address
+- [x] Avatar upload (mock/frontend only)
+- [x] Form validation
+- [x] `GET /api/profile`
+- [x] `PUT /api/profile`
+
+### Error handling
+
+- [x] API error states on all pages
+- [x] Empty states
+- [x] Skeleton loading indicators
+- [x] Retry actions
+- [x] 404 page
+- [x] Global error boundary with fallback UI
+
+### Design system & UI engineering
+
+- [x] Consistent typography and spacing (CSS custom property tokens)
+- [x] Reusable Button, Input, Label, Card, Badge, Select, Skeleton components
+- [x] Shared theme/token strategy (`globals.css` CSS variables)
+- [x] Accessible components via Radix UI primitives
+- [x] Strong visual hierarchy
+- [ ] Optimistic updates
+- [ ] Modal/dialog component
+- [ ] Design system documentation (bonus)
+- [ ] Storybook integration (bonus)
+
+### Performance & optimisation
+
+- [x] Automatic route splitting (Next.js)
+- [x] `optimizePackageImports` for `lucide-react` tree-shaking
+- [x] Skeleton loading (stable layout, good CLS)
+- [x] `useCallback` on fetch functions to prevent unnecessary re-renders
+- [x] `next/image` for optimised image rendering
+- [x] Minimal global state — local state used where appropriate
+- [x] Bundle analysis script (`ANALYZE=true pnpm build`)
+- [ ] React Suspense
+- [ ] Lighthouse score documented
+- [ ] Explicit caching strategy
+
+### Accessibility
+
+- [x] Semantic HTML (`<nav>`, `<main>`, `<aside>`, `<section>`, `<ul>`)
+- [x] ARIA labels, `aria-current`, `aria-busy`, `aria-invalid`, `aria-describedby`, `aria-live`
+- [x] `:focus-visible` ring on all interactive elements
+- [x] Form errors associated to inputs via `aria-describedby`
+- [x] Keyboard navigable sidebar and bottom tab bar
+- [x] WCAG AA colour contrast on primary tokens
+- [x] Screen reader basics (`role="alert"`, `role="status"`, `aria-hidden` on decorative elements)
+- [x] `safe-area-inset-bottom` on mobile nav for notched devices
+- [ ] Skip-to-main-content link
+
+### Animations & micro-interactions
+
+- [x] Page fade-in transition (`.page-enter`)
+- [x] Hover and focus states on all interactive elements
+- [x] Skeleton pulse animation
+- [x] Active nav item scale on mobile tab bar
+- [x] Button press scale (`active:scale-[0.98]`)
+- [ ] Additional micro-interactions (e.g. form submission success animation)
+
+### Engineering & collaboration standards
+
+- [x] Clean code structure and separation of concerns
+- [x] Typed throughout with TypeScript
+- [x] Thoughtful abstraction (shared hooks, stores, utils, api-client)
+- [x] Clear documentation
+- [ ] Meaningful git commit history (ongoing)
+
+### Testing
+
+- [x] Auth store tests (login, logout, token persistence, error/loading state)
+- [x] Transactions store tests (filters, pagination, reset)
+- [x] Utility function tests (formatting, masking)
+- [x] Button component tests
+- [x] API fetch contract tests (auth login)
+- [ ] Form validation unit tests (login/register Zod schemas)
+- [x] Transaction detail API tests (valid id, 404, endpoint, response shape)
+- [ ] Dashboard/accounts/transactions component tests
+
+### README
+
+- [x] Architecture decisions
+- [x] Folder structure rationale
+- [x] State management approach
+- [x] Performance considerations
+- [x] Accessibility considerations
+- [x] How to run and test
+- [x] Deployment URL

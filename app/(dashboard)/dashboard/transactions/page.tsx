@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useCallback } from "react";
+import Link from "next/link";
 import { TrendingUp, TrendingDown, ArrowLeftRight, ChevronLeft, ChevronRight, Filter } from "lucide-react";
 
 import { Card, CardContent } from "@/components/ui/card";
@@ -195,10 +196,12 @@ export default function TransactionsPage() {
               : transactions.map((txn) => {
                   const Icon = TYPE_ICON[txn.type];
                   return (
-                    <div
+                    <Link
                       key={txn.id}
-                      className="flex items-center gap-4 p-4 hover:bg-[hsl(var(--accent))] transition-colors"
+                      href={`/dashboard/transactions/${txn.id}`}
+                      className="flex items-center gap-4 p-4 hover:bg-[hsl(var(--accent))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[hsl(var(--ring))]"
                       role="listitem"
+                      aria-label={`View details for ${txn.description}`}
                     >
                       <div
                         className={cn("h-9 w-9 rounded-full flex items-center justify-center shrink-0", TYPE_COLOR[txn.type])}
@@ -232,7 +235,7 @@ export default function TransactionsPage() {
                           {txn.status}
                         </Badge>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
           </div>

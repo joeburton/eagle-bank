@@ -206,10 +206,12 @@ export default function DashboardPage() {
             aria-label="Recent transactions list"
           >
             {data.recentTransactions.map((txn) => (
-              <div
+              <Link
                 key={txn.id}
-                className="flex items-center gap-4 p-4 rounded-xl border border-[hsl(var(--border))] hover:bg-[hsl(var(--accent))] transition-colors cursor-pointer"
+                href={`/dashboard/transactions/${txn.id}`}
+                className="flex items-center gap-4 p-4 rounded-xl border border-[hsl(var(--border))] hover:bg-[hsl(var(--accent))] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[hsl(var(--ring))]"
                 role="listitem"
+                aria-label={`View details for ${txn.description}`}
               >
                 <div
                   className={cn(
@@ -254,7 +256,7 @@ export default function DashboardPage() {
                     {txn.status}
                   </Badge>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
