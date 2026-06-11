@@ -18,6 +18,10 @@ async function loginRequest(email: string, password: string) {
   return res.json();
 }
 
+// Note: the login route sets an `is-authenticated` presence-flag cookie (httpOnly).
+// The token is returned in the JSON response body and stored client-side in Zustand.
+// proxy.ts checks the cookie; API route handlers validate the Bearer token.
+
 describe("Auth API", () => {
   beforeEach(() => {
     mockFetch.mockReset();
@@ -75,5 +79,39 @@ describe("Auth API", () => {
     const body = JSON.parse(options.body);
     expect(body.email).toBe("test@example.com");
     expect(body.password).toBe("mypassword");
+  });
+});
+
+describe("Logout API", () => {
+  beforeEach(() => {
+    mockFetch.mockReset();
+  });
+
+  async function logoutRequest() {
+    const res = await fetch("/api/auth/logout", { method: "POST" });
+    return res.json();
+  }
+
+  it("calls the correct endpoint with POST method", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ message: "Logged out successfully" }),
+    });
+
+    await logoutRequest();
+    expect(mockFetch).toHaveBeenCalledWith(
+      "/api/auth/logout",
+      expect.objectContaining({ method: "POST" })
+    );
+  });
+
+  it("returns a success message", async () => {
+    mockFetch.mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ message: "Logged out successfully" }),
+    });
+
+    const result = await logoutRequest();
+    expect(result.message).toBe("Logged out successfully");
   });
 });
