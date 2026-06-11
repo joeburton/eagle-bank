@@ -8,6 +8,7 @@ import {
   ArrowLeftRight,
   User,
   LogOut,
+  HelpCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/hooks/use-auth";
@@ -23,6 +24,7 @@ const NAV_ITEMS = [
     icon: ArrowLeftRight,
   },
   { href: "/dashboard/profile", label: "Profile", icon: User },
+  { href: "/dashboard/faq", label: "FAQ", icon: HelpCircle },
 ];
 
 export function NavSidebar() {
