@@ -33,9 +33,7 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const { user, token } = useAuthStore();
-
-  console.log("User details:", user);
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const fetchDashboard = async () => {

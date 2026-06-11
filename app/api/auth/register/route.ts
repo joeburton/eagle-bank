@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       message: "Registration successful",
     });
 
-    response.cookies.set("eagle-bank-token", MOCK_TOKEN, {
+    response.cookies.set("is-authenticated", "1", {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
