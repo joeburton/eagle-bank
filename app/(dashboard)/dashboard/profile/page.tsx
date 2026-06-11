@@ -37,7 +37,7 @@ export default function ProfilePage() {
   const [isSaving, setIsSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  console.log("Rendering ProfilePage with user:", user);
+
   const {
     register,
     handleSubmit,

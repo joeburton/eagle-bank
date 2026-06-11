@@ -2,20 +2,32 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 const PUBLIC_ROUTES = ["/login", "/register"];
+const PUBLIC_API_ROUTES = [
+  "/api/auth/login",
+  "/api/auth/register",
+  "/api/auth/logout",
+];
 const PROTECTED_PREFIX = "/dashboard";
 
 export function proxy(request: NextRequest) {
-  console.log("Proxy middleware triggered for:", request.url);
   const { pathname } = request.nextUrl;
   const token = request.cookies.get("eagle-bank-token")?.value;
 
   const isPublicRoute = PUBLIC_ROUTES.some((route) =>
     pathname.startsWith(route),
   );
+  const isPublicApiRoute = PUBLIC_API_ROUTES.some((route) =>
+    pathname.startsWith(route),
+  );
+
   const isProtectedRoute = pathname.startsWith(PROTECTED_PREFIX);
+
   const isApiRoute = pathname.startsWith("/api");
 
-  // Let API routes pass through
+  if (isApiRoute && !isPublicApiRoute && !token) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+  }
+
   if (isApiRoute) return NextResponse.next();
 
   // Root redirect
