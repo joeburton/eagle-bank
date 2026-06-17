@@ -97,7 +97,7 @@ All mock endpoints live in `app/api/` as proper Next.js Route Handlers. This mir
 
 ### Auth: cookie + localStorage hybrid
 
-The Route Handler sets an `httpOnly` cookie (`eagle-bank-token`) for middleware-based route protection, while Zustand persists the token in `localStorage` for client-side auth checks. This is consistent with common production patterns.
+The login Route Handler sets an `httpOnly` presence-flag cookie (`is-authenticated`) for middleware-based route protection — it contains no sensitive data. The actual Bearer token (a mock JWT) is persisted in Zustand/localStorage and sent as a `Bearer` header on all API requests. This mirrors production patterns where APIs may live on a separate server.
 
 ---
 
@@ -126,6 +126,8 @@ eagle-bank/
 ├── components/
 │   ├── ui/                 # shadcn/ui owned components
 │   ├── nav-sidebar.tsx
+│   ├── mobile-nav.tsx      # Bottom tab bar for mobile
+│   ├── mobile-header.tsx   # Top header bar for mobile
 │   └── error-boundary.tsx
 ├── hooks/
 │   └── use-auth.ts         # Login / register / logout logic
@@ -173,13 +175,25 @@ eagle-bank/
 
 Tests live in `__tests__/` and use **Vitest** + **Testing Library**.
 
-| Area                        | What's tested                                                   |
-| --------------------------- | --------------------------------------------------------------- |
-| `lib/utils.ts`              | Currency formatting, date formatting, masking, sign helpers     |
-| `stores/auth-store`         | Login state, logout, token persistence, error/loading state     |
-| `stores/transactions-store` | Pagination, filters, reset                                      |
-| `components/ui/Button`      | Rendering, click handling, disabled state, asChild              |
-| `api/auth`                  | Fetch contract — correct endpoint, method, body, error handling |
+| Area                          | What's tested                                                   |
+| ----------------------------- | --------------------------------------------------------------- |
+| `lib/utils.ts`                | Currency formatting, date formatting, masking, sign helpers     |
+| `stores/auth-store`           | Login state, logout, token persistence, error/loading state     |
+| `stores/transactions-store`   | Pagination, filters, reset                                      |
+| `proxy.ts`                    | Route protection, redirects, auth cookie checks                 |
+| `components/nav-sidebar`      | Rendering, active state, keyboard nav                           |
+| `components/mobile-nav`       | Rendering, active route, links                                  |
+| `components/mobile-header`    | Rendering, user display, logout                                 |
+| `components/error-boundary`   | Error catch, fallback UI                                        |
+| `components/ui/Button`        | Rendering, click handling, disabled state, asChild              |
+| `components/ui/Badge`         | Variants, rendering                                             |
+| `components/ui/Card`          | Rendering, composition                                          |
+| `components/ui/Input`         | Rendering, value, disabled                                      |
+| `components/ui/Label`         | Rendering, association                                          |
+| `components/ui/Select`        | Rendering, options                                              |
+| `components/ui/Skeleton`      | Rendering, animation class                                      |
+| `api/auth`                    | Fetch contract — correct endpoint, method, body, error handling |
+| `api/transactions/[id]`       | Valid id, 404, response shape                                   |
 
 Run tests:
 
@@ -192,7 +206,7 @@ pnpm test:coverage     # generate coverage report
 
 ## Security considerations
 
-- Auth token stored in `httpOnly` cookie — not accessible to JavaScript, mitigating XSS token theft.
+- `httpOnly` presence-flag cookie (`is-authenticated`) — not accessible to JavaScript, mitigating XSS token theft; contains no sensitive data. Bearer token lives in Zustand/localStorage for API requests.
 - `SameSite: lax` on the session cookie prevents CSRF.
 - Form inputs use `noValidate` with Zod + React Hook Form — validation runs in JS with full error messaging rather than relying on native browser validation that can be bypassed.
 - No sensitive data (account numbers) displayed in full — `maskAccountNumber` utility masks all but the last 4 digits.
@@ -294,7 +308,7 @@ pnpm test:coverage     # generate coverage report
 - [x] `useCallback` on fetch functions to prevent unnecessary re-renders
 - [x] `next/image` for optimised image rendering
 - [x] Minimal global state — local state used where appropriate
-- [x] Bundle analysis script (`ANALYZE=true pnpm build`)
+- [x] Bundle analysis script (`pnpm analyze`)
 - [ ] React Suspense
 - [ ] Lighthouse score documented
 - [ ] Explicit caching strategy
@@ -333,11 +347,13 @@ pnpm test:coverage     # generate coverage report
 - [x] Auth store tests (login, logout, token persistence, error/loading state)
 - [x] Transactions store tests (filters, pagination, reset)
 - [x] Utility function tests (formatting, masking)
-- [x] Button component tests
+- [x] Proxy/middleware tests (route protection, redirects, cookie checks)
+- [x] Nav sidebar, mobile nav, mobile header, error boundary component tests
+- [x] UI component tests (Button, Badge, Card, Input, Label, Select, Skeleton)
 - [x] API fetch contract tests (auth login)
-- [ ] Form validation unit tests (login/register Zod schemas)
 - [x] Transaction detail API tests (valid id, 404, endpoint, response shape)
-- [ ] Dashboard/accounts/transactions component tests
+- [ ] Form validation unit tests (login/register Zod schemas)
+- [ ] Page-level component tests (dashboard, accounts, transactions pages)
 
 ### README
 
